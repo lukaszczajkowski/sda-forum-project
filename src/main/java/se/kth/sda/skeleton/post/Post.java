@@ -1,5 +1,6 @@
 package se.kth.sda.skeleton.post;
 
+
 import se.kth.sda.skeleton.comments.Comment;
 import se.kth.sda.skeleton.user.User;
 
@@ -29,6 +30,7 @@ public class Post {
     @Column(name = "date")
     private Date date;
 
+
     @OneToMany
     private List<Comment> comments;
 
@@ -38,6 +40,13 @@ public class Post {
         this.content = content;
         this.user = user;
         this.date = Calendar.getInstance().getTime();
+    }
+
+
+
+    public Post(String content, String title) {
+        this.content = content;
+        this.title = title;
     }
 
     public Post() {
@@ -73,5 +82,13 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+  
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
