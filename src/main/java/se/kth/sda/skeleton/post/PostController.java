@@ -1,12 +1,12 @@
 package se.kth.sda.skeleton.post;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.kth.sda.skeleton.auth.AuthService;
 import se.kth.sda.skeleton.user.User;
 import se.kth.sda.skeleton.user.UserService;
-
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,6 +15,8 @@ import java.util.List;
 public class PostController {
 
     private final PostService service;
+
+
     private final UserService userService;
     private final AuthService authService;
 

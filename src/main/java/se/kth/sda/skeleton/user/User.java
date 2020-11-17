@@ -1,8 +1,8 @@
 package se.kth.sda.skeleton.user;
 
 import org.hibernate.validator.constraints.Length;
+import se.kth.sda.skeleton.comments.Comment;
 import se.kth.sda.skeleton.post.Post;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -31,6 +31,12 @@ public class User {
     @Column(name = "name")
     private String name;
 
+
+    @OneToMany
+    private List<Comment> comments;
+
+    @OneToMany
+    private List<Post> postDeatils;
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
 
