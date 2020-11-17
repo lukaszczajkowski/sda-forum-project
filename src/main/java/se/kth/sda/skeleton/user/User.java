@@ -1,10 +1,13 @@
 package se.kth.sda.skeleton.user;
 
 import org.hibernate.validator.constraints.Length;
+import se.kth.sda.skeleton.post.Post;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="account")
@@ -27,6 +30,9 @@ public class User {
     @Length(min = 3, max=100, message = "Name must be between 3-100 characters")
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 
     // Hibernate needs a default constructor to function
     public User() {}
@@ -68,5 +74,18 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
