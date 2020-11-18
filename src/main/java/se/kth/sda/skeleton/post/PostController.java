@@ -45,18 +45,41 @@ public class PostController {
         post.setDate(Calendar.getInstance().getTime());
         User user = userService.findUserByEmail(authService.getLoggedInUserEmail());
         post.setUser(user);
-
         return service.create(post);
     }
 
     @PutMapping("")
     public Post update(@RequestBody Post updatedPost) {
-        String postAuthorEmail = updatedPost.getUser().getEmail();
-        String editorEmail = authService.getLoggedInUserEmail();
-        if(postAuthorEmail.equals(editorEmail)){
+        if(checkCredentials(updatedPost)){
             return service.update(updatedPost);
         } else {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
         }
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
+        System.out.println("Checking credentials.");
+        if(checkCredentials(service.getPostById(id))){
+            System.out.println("Credentials ok!");
+            service.delete(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+    }
+
+    @PutMapping("/validate")
+    public Post validate(@RequestBody Post post) {
+        if(checkCredentials(post)){
+            return post;
+        } else {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+    }
+
+    private boolean checkCredentials(Post post) {
+        String postAuthorEmail = post.getUser().getEmail();
+        String editorEmail = authService.getLoggedInUserEmail();
+        return postAuthorEmail.equals(editorEmail);
     }
 }

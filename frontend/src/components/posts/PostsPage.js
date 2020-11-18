@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import PostsApi from '../../api/PostsApi';
-import Card from '../cards/Card';
+import PostCard from './PostCard';
 import PostForm from "./PostForm";
 
 function PostsPage() {
     const [posts, setPosts] = useState([]);
 
-    const createPost = (postData) => {
-        PostsApi.createPost(postData);
-    }
+
+    const createPost = async (postData) => {
+        PostsApi.createPost(postData).then(response => setPosts([...posts, response.data]));   
+    };
+
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect( async () => {
-        const source = PostsApi.getAllPosts()
+        PostsApi.getAllPosts()
             .then(response => {
                 const data = response.data;
                 setPosts(data);
@@ -21,7 +23,7 @@ function PostsPage() {
     }, []);
     
     const cards = posts.map((item) => {
-        return <Card key = {item.id} data = {item}/>
+        return <PostCard key = {item.id} data = {item}/>
     });
 
     return (
