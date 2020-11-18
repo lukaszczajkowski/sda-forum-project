@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PostsApi from '../../api/PostsApi';
-import Card from '../cards/Card';
+import PostCard from './PostCard';
 import PostForm from "./PostForm";
 
 function PostsPage() {
@@ -23,7 +23,7 @@ function PostsPage() {
     }, []);
     
     const cards = posts.map((item) => {
-        return <Card key = {item.id} data = {item}/>
+        return <PostCard key = {item.id} data = {item}/>
     });
 
     return (

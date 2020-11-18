@@ -68,6 +68,15 @@ public class PostController {
         }
     }
 
+    @PutMapping("/validate")
+    public Post validate(@RequestBody Post post) {
+        if(checkCredentials(post)){
+            return post;
+        } else {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+    }
+
     private boolean checkCredentials(Post post) {
         String postAuthorEmail = post.getUser().getEmail();
         String editorEmail = authService.getLoggedInUserEmail();

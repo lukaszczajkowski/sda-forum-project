@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PostsApi from '../../api/PostsApi';
 
 export default function PostForm({onSubmit}) {

@@ -30,7 +30,6 @@ public class Post {
     @Column(name = "date")
     private Date date;
 
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 

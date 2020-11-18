@@ -20,6 +20,10 @@ class PostsApi {
     deletePost(id) {
         return Api.delete('/posts/'+id);
     } 
+
+    validateUser(post) {
+        return Api.put('/posts/validate', post)
+    }
 }
 
 export default new PostsApi();
