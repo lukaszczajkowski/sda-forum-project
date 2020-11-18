@@ -29,6 +29,6 @@ public class ReactionService {
 
     public List<Reaction> getAllReactionByPostId(Long id){return reactionRepository.findAllByPostId(id);}
 
-    public List<Reaction> getAllReactionByUserId(Long id){return reactionRepository.findAllByUserId(id);}
+    public List<Reaction> getAllReactionByUserId(Long id){return reactionRepository.findAllByAuthorId(id);}
 
 }

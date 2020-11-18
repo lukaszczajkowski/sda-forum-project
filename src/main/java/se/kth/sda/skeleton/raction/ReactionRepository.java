@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface ReactionRepository extends JpaRepository<Reaction, Long> {
-    List<Reaction> findAllByUserId(Long userId);
+    List<Reaction> findAllByAuthorId(Long authorId);
     List<Reaction> findAllByPostId(Long postId);
 }
