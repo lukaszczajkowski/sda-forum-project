@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PostsApi from '../../api/PostsApi';
 import PostCard from './PostCard';
 import PostForm from "./PostForm";
+import CommentPage from"../comments/CommentsPage";
 
 function PostsPage() {
     const [posts, setPosts] = useState([]);
@@ -32,7 +33,9 @@ function PostsPage() {
                 <PostForm onSubmit={createPost}/>
             </div>
             {cards}
+            <CommentPage />
         </div>
+
     );
 }
 
