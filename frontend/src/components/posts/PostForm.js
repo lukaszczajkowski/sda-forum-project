@@ -6,6 +6,7 @@ export default function PostForm({onSubmit}) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
+    const status = true;
     return (
         <div className = "post-form">
             <label>Write your post here: </label>
@@ -17,7 +18,7 @@ export default function PostForm({onSubmit}) {
                 onChange = {e => setTitle(e.target.value)}
             />
             <input
-                type = "text"
+                type = "textarea"
                 className = "form-control"
                 placeholder = "My thoughts are..."
                 value = {content}
@@ -25,7 +26,9 @@ export default function PostForm({onSubmit}) {
             />
             <button
                 className = "btn btn-info"
-                onClick = {() => onSubmit({title, content})}>
+                onClick = {() => {
+                    onSubmit({title, content});
+                }}>
                 post
             </button>
         </div>

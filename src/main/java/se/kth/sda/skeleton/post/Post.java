@@ -31,7 +31,7 @@ public class Post {
     private Date date;
 
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public Post(Long id, String title, String content, User user, Date date) {
@@ -44,7 +44,8 @@ public class Post {
 
 
 
-    public Post(String content, String title) {
+    public Post(Long id, String content, String title) {
+        this.id = id;
         this.content = content;
         this.title = title;
     }
