@@ -24,19 +24,23 @@ public class ReactionController {
     private AuthService authService;
 
     @GetMapping("")
-    public List<Reaction> getALl(@RequestParam(required = false) Long PostId, Long UserId){
-        if(PostId != null){
-            return reactionService.getAllReaction();
-        }else if(UserId != null){
-            return reactionService.getAllReactionByUserId(UserId);
-        }else {
-            return reactionService.getAllReactionByPostId(PostId);
-        }
+    public List<Reaction> getALl(){
+        return reactionService.getAllReaction();
     }
 
     @GetMapping("/{id}")
     public Reaction getById(@PathVariable Long id){
         return reactionService.getReactionById(id);
+    }
+
+    @GetMapping("/post/{id}")
+    public List<Reaction> getReactionByPostId(@PathVariable Long id){
+        return reactionService.getAllReaction();
+    }
+
+    @GetMapping("/user/{id}")
+    public List<Reaction> getReactionByUserId(@PathVariable Long id){
+        return reactionService.getAllReactionByUserId(id);
     }
 
     @PostMapping("")
