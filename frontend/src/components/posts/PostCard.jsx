@@ -18,11 +18,13 @@ export default function PostCard ({data}) {
 
     useEffect(() => {
         PostsApi.getPostById({id});
+    },[]);
+
+    useEffect( () => {
         ReactionApi.countReactionByPostId({id})
         .then(dt=>setNumReactions(dt))
         .catch(er=>console.log(er));
-    },[]);
-
+    }, []);
 
     const updatePost = (updatedPost) => {
         PostsApi.updatePost(updatedPost)
@@ -37,20 +39,11 @@ export default function PostCard ({data}) {
                 .catch((err) => alert("You cannot update this post."))
     }
 
-    const onLikeClicked = ()=>{
-        //{} removeed
-        if (ReactionApi.isUserReacted(id)){
-            console.log("Id = "  + id)
-            ReactionApi.getReactionIdByPostId(id)
-            .then(id => ReactionApi.deleteReaction(id.data))
-            .then(setNumReactions(numReactions - 1))
-            .catch(err => console.log(err));
-        }else{
-            console.log("we are in else");
-            ReactionApi.createReaction(id)
-            .then(id => setNumReactions(numReactions + 1))
-            .catch(err => console.log(err));;
-        }
+    const onLikeClicked = async()=>{
+        console.log("I am clicked");
+        ReactionApi.updateReaction({id})
+        .then(dt => setNumReactions(dt))
+        .catch(err => alert("Cannot update the likes"));
     }
     
     return (

@@ -23,11 +23,6 @@ public class Reaction {
 
     public Reaction() {}
 
-    public Reaction(Long id, Date timeStamp) {
-        this.id = id;
-        this.timeStamp = timeStamp;
-    }
-
     public Reaction(Long id, User author, Date timeStamp) {
         this.id = id;
         this.author = author;
@@ -58,11 +53,7 @@ public class Reaction {
         this.timeStamp = timeStamp;
     }
 
-    public Post getPost() {
-        return post;
-    }
+    public Post getPost() { return post;}
 
-    public void setPost(Post post) {
-        this.post = post;
-    }
+    public void setPost(Post post) { this.post = post;}
 }

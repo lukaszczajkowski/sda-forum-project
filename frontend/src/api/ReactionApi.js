@@ -22,29 +22,12 @@ class ReactionApi {
     createReaction(postId) {
         return Api.post('/reactions' +postId);
     }
-
     countReactionByPostId(id) {
         return Api.get('/reactions/count/post/'+id);
     } 
 
-    countReactionByUserId(id) {
-        return Api.get('/reactions/count/user/'+id);
-    } 
-
-    deleteReaction(id) {
-        return Api.delete('/reactions/'+id);
-    } 
-
-    validateUser(reaction) {
-        return Api.put('/reactions/validate', reaction);
-    }
-
-    isUserReacted(postId){
-        return Api.get("/reactions/validByPostId/" + postId);
-    }
-
-    getReactionIdByPostId(postId){
-        return Api.get("/reactions/fetchReactionByPostId/" + postId);
+    updateReaction(postId){
+        return Api.post("/reactions/updateByPostId/" + postId);
     }
 }
 

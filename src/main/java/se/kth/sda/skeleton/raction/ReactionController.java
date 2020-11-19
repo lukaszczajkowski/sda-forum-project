@@ -70,63 +70,37 @@ public class ReactionController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        if(checkCredentials(reactionService.getReactionById(id))){
-            reactionService.delete(id);
-        }else {
-            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
-        }
-    }
+    public void delete(@PathVariable Long id){  reactionService.delete(id);}
 
-    @PutMapping("/validate")
-    public Reaction validate(@RequestBody Reaction reaction) {
-        if(checkCredentials(reaction)){
-            return reaction;
-        } else {
-            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
-        }
-    }
-
-    private boolean checkCredentials(Reaction reaction){
-        String reactionAuthorEmail = reaction.getAuthor().getEmail();
+    @PostMapping("/updateByPostId/{postId}")
+    private int updateReactionByPostId(@PathVariable Long postId){
+        System.out.println("I am called");
         String editorEmail = authService.getLoggedInUserEmail();
-        return reactionAuthorEmail == editorEmail;
-    }
+        List<Reaction> reactionsOfPost = reactionService.getAllReactionByPostId(postId);
 
-    @GetMapping("/fetchReactionByPostId/{postId}")
-    private Long getIdByPostId(@PathVariable Long postId){
-        Reaction reaction = checkUserReactedAlready(postId);
-        if(reaction == null) {
-            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
-        } else {
-            return reaction.getId();
-        }
-    }
-
-    @GetMapping("/validByPostId/{postId}")
-    private boolean validByPost(@PathVariable Long postId){
-        if(checkUserReactedAlready(postId) == null){
-            return false;
-        }else{
-            return true;
-        }
-    }
-
-    //changed to boolean from Reaction
-    private Reaction checkUserReactedAlready(Long postId){
-        String editorEmail = authService.getLoggedInUserEmail();
-        List<Reaction> reactedOfPost = reactionService.getAllReactionByPostId(postId);
-        if(reactedOfPost.size() == 0){
-            create(postId);
-            checkUserReactedAlready(postId);
-        } else {
-            for(Reaction reaction:reactedOfPost) {
-                if (reaction.getAuthor().getEmail().equals(editorEmail)) {
-                System.out.println("Check user reacted - match found!");
-                return reaction;
-                    }
+        Boolean reacted = false;
+        Long reactionId = null;
+        for(Reaction reaction:reactionsOfPost){
+            if(editorEmail.equals(reaction.getAuthor().getEmail())){
+                reacted = true;
+                reactionId = reaction.getId();
+                break;
             }
         }
-        return null;
+
+        if(reacted){
+            reactionService.delete(reactionId);
+        }else {
+            Reaction reaction = new Reaction();
+            reaction.setTimeStamp(Calendar.getInstance().getTime());
+            User user = userService.findUserByEmail(authService.getLoggedInUserEmail());
+            Post post = postService.getPostById(postId);
+            reaction.setPost(post);
+            reaction.setAuthor(user);
+            reactionService.create(reaction);
+        }
+
+        return reactionService.getAllReactionByPostId(postId).size();
     }
+
 }
