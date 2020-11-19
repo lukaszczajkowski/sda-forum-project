@@ -3,8 +3,13 @@ package se.kth.sda.skeleton.post;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import se.kth.sda.skeleton.user.User;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class PostService {
@@ -41,5 +46,11 @@ public class PostService {
         repository.deleteById(id);
     }
 
+    public List<Post> getAllPosts(String sort) {
+        return this.repository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Post::getTitle))
+                .collect(Collectors.toList());
+    }
 }
 

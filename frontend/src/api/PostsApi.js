@@ -24,6 +24,10 @@ class PostsApi {
     validateUser(post) {
         return Api.put('/posts/validate', post)
     }
+
+    getPostsSortedByUserName() {
+         return Api.get("/posts", {params: {sort: "name"}})
+    }
 }
 
 export default new PostsApi();

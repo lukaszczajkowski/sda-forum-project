@@ -27,12 +27,16 @@ public class PostController {
     }
 
     @GetMapping("")
-    public List<Post> getAll(@RequestParam(required = false) Long userId) {
-        if(userId != null) {
+    public List<Post> getAll(@RequestParam(required = false) Long userId,
+                            @RequestParam(required = false) String sort) {
+        if (userId != null) {
+            System.out.println("I am here");
             return service.getPostsByUserId(userId);
-        } else {
-            return service.getAllPosts();
         }
+        if (sort != null) {
+            return service.getAllPosts(sort);
+        }
+        return service.getAllPosts();
     }
 
     @GetMapping("{id}")
