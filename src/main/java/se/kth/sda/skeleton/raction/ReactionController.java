@@ -29,7 +29,7 @@ public class ReactionController {
         return reactionService.getAllReaction();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public Reaction getById(@PathVariable Long id){
         return reactionService.getReactionById(id);
     }
@@ -44,9 +44,14 @@ public class ReactionController {
         return reactionService.getAllReactionByUserId(userId);
     }
 
-    @GetMapping("/post/count/{postId}")
-    public int countReactionByPost(@PathVariable Long postId)   {
+    @GetMapping("/count/post/{postId}")
+    public int countReactionByPostId(@PathVariable Long postId)   {
         return reactionService.getAllReactionByPostId(postId).size();
+    }
+
+    @GetMapping("/count/user/{userId}")
+    public int countReactionByUserId(@PathVariable Long userId){
+        return reactionService.getAllReactionByUserId(userId).size();
     }
 
     @PostMapping("")
@@ -57,7 +62,7 @@ public class ReactionController {
         return reactionService.create(reaction);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         if(checkCredentials(reactionService.getReactionById(id))){
             reactionService.delete(id);

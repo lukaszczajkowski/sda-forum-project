@@ -2,7 +2,11 @@ import Api from "./Api";
 
 class ReactionApi {
 
-    getReactionsId(id) {
+    getAllReactions(){
+        return Api.get('/reactions')
+    }
+
+    getReactionsById(id) {
         return Api.get('/reactions/'+id);
     }
 
@@ -18,12 +22,16 @@ class ReactionApi {
         return Api.put('/reactions', reaction);
     }
 
-    deleteReaction(id) {
-        return Api.delete('/reactions/'+id);
-    } 
-    
     countReactionByPostId(id) {
         return Api.get('/reactions/count/post/'+id);
+    } 
+
+    countReactionByUserId(id) {
+        return Api.get('/reactions/count/user/'+id);
+    } 
+
+    deleteReaction(id) {
+        return Api.delete('/reactions/'+id);
     } 
 
     validateUser(reaction) {

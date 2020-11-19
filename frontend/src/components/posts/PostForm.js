@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import PostsApi from '../../api/PostsApi';
 
 export default function PostForm({onSubmit}) {
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
-    const status = true;
     return (
         <div className = "post-form">
             <label>Write your post here: </label>

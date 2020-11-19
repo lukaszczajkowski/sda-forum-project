@@ -4,20 +4,23 @@ import ReactionApi from '../../api/ReactionApi';
 import PostUpdateForm from './PostUpdateForm';
 
 //TODO: rename it to PostCard and place it in the posts folder
-export default function PostCard ({data}) {
+export default function PostCard ({data}) {
     const {
         id,
         title,
         content,
         user, 
-        date,
-        numReaction,
+        date
     } = data;
 
     const [isUpdating, setIsUpdating] = useState(false);
+    const [numReactions, setNumReactions] = useState(0);
 
     useEffect(() => {
         PostsApi.getPostById({id});
+        ReactionApi.countReactionByPostId({id})
+        .then(dt=>setNumReactions(dt))
+        .catch(er=>console.log(er));
     },[]);
 
 
@@ -34,10 +37,9 @@ export default function PostCard ({data}) {
                 .catch((err) => alert("You cannot update this post."))
     }
   
-    const onLikeClicked =() =>{
-        
-    }
+    const onLikeClicked =()=>{
 
+    }
     //TODO: place the remove function in the parent class
     
     return (
@@ -67,14 +69,12 @@ export default function PostCard ({data}) {
                 }}>
                 Update
             </button>
-
             <button className="btn btn-info"
                 onClick = {() => {
                     onLikeClicked()
                 }}>
-                Like{numReaction}
+                Like({numReactions})
             </button>
-
             </div>
         </div>
     )
