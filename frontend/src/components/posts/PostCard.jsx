@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PostsApi from '../../api/PostsApi';
 import PostUpdateForm from './PostUpdateForm';
-import CommentsWindow from "../comments/CommentsWindow";
 
 //TODO: rename it to PostCard and place it in the posts folder
-export default function PostCard ({data}) {
+export default function PostCard ({data}) {
+
     const {
         id,
         title,
@@ -18,6 +18,7 @@ export default function PostCard ({data}) {
     useEffect(() => {
         PostsApi.getPostById({id});
     },[]);
+
     const updatePost = (updatedPost) => {
         PostsApi.updatePost(updatedPost)
                 .then(() => window.location.reload())
@@ -42,6 +43,7 @@ export default function PostCard ({data}) {
         <div className = "card mt-4">
             <div className = "card-body">
             <h4 className="card-title">{title}</h4>
+
             <p>Posted by  on {date}</p>
             <p>{content}</p>
 
@@ -49,6 +51,8 @@ export default function PostCard ({data}) {
               <CommentsWindow postId = {id} />   
             </div>
             
+            <p>Posted by {user.name} on {date}</p>
+            <p>{content}</p>
             <button 
                 className="btn btn-danger" 
                 onClick={() => {

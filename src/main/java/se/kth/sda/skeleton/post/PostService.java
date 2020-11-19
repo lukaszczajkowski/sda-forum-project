@@ -36,4 +36,10 @@ public class PostService {
     public Post update(Post updatedPost) {
         return this.repository.save(updatedPost);
     }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
 }
+
