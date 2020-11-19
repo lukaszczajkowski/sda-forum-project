@@ -23,7 +23,12 @@ class CommentsApi {
 
     deleteComment(id) {
         return Api.delete('/comment/'+id);
-    } 
+    }
+
+    validateUser(comment) {
+        return Api.put('/comment/validate', comment);
+    }
+    
 }
 
 export default new CommentsApi();

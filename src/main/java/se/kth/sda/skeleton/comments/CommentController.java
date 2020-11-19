@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.kth.sda.skeleton.auth.AuthService;
+import se.kth.sda.skeleton.post.Post;
 import se.kth.sda.skeleton.user.UserService;
 
 import java.util.List;
@@ -66,5 +67,20 @@ public class CommentController {
         }
         else
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"Unauthorized to update");
+    }
+
+    @PutMapping("/comment/validate")
+    public Comment validate(@RequestBody Comment comment) {
+        if(checkCredentials(comment)){
+            return comment;
+        } else {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+    }
+
+    private boolean checkCredentials(Comment comment) {
+        String commentsAuthorEmail = comment.getUser().getEmail();
+        String editorEmail = authService.getLoggedInUserEmail();
+        return commentsAuthorEmail.equals(editorEmail);
     }
 }
