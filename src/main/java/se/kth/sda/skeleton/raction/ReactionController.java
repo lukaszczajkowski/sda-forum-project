@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.kth.sda.skeleton.auth.AuthService;
+import se.kth.sda.skeleton.post.Post;
 import se.kth.sda.skeleton.user.User;
 import se.kth.sda.skeleton.user.UserService;
 
@@ -33,14 +34,19 @@ public class ReactionController {
         return reactionService.getReactionById(id);
     }
 
-    @GetMapping("/post/{id}")
-    public List<Reaction> getReactionByPostId(@PathVariable Long id){
-        return reactionService.getAllReaction();
+    @GetMapping("/post/{postId}")
+    public List<Reaction> getReactionByPostId(@PathVariable Long postId){
+        return reactionService.getAllReactionByPostId(postId);
     }
 
-    @GetMapping("/user/{id}")
-    public List<Reaction> getReactionByUserId(@PathVariable Long id){
-        return reactionService.getAllReactionByUserId(id);
+    @GetMapping("/user/{userId}")
+    public List<Reaction> getReactionByUserId(@PathVariable Long userId){
+        return reactionService.getAllReactionByUserId(userId);
+    }
+
+    @GetMapping("/post/count/{postId}")
+    public int countReactionByPost(@PathVariable Long postId)   {
+        return reactionService.getAllReactionByPostId(postId).size();
     }
 
     @PostMapping("")
@@ -51,11 +57,20 @@ public class ReactionController {
         return reactionService.create(reaction);
     }
 
-    @DeleteMapping
+    @DeleteMapping("")
     public void delete(@PathVariable Long id){
         if(checkCredentials(reactionService.getReactionById(id))){
             reactionService.delete(id);
         }else {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+    }
+
+    @PutMapping("/validate")
+    public Reaction validate(@RequestBody Reaction reaction) {
+        if(checkCredentials(reaction)){
+            return reaction;
+        } else {
             throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
         }
     }

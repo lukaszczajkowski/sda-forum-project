@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PostsApi from '../../api/PostsApi';
+import ReactionApi from "../../api/ReactionApi";
 import PostCard from './PostCard';
 import PostForm from "./PostForm";
 

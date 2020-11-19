@@ -6,21 +6,28 @@ class ReactionApi {
         return Api.get('/reactions/'+id);
     }
 
+    getReactionsByPostId(id) {
+        return Api.get('/reactions/post/'+id);
+    }
+
+    getReactionsByUserId(id) {
+        return Api.get('/reactions/user/'+id);
+    }
+
+    createReaction(reaction) {
+        return Api.put('/reactions', reaction);
+    }
+
+    deleteReaction(id) {
+        return Api.delete('/reactions/'+id);
+    } 
     
-    createPost(post) {
-        return Api.post('/posts', post);
-    }
-
-    updatePost(post) {
-        return Api.put('/posts', post);
-    }
-
-    deletePost(id) {
-        return Api.delete('/posts/'+id);
+    countReactionByPostId(id) {
+        return Api.get('/reactions/count/post/'+id);
     } 
 
-    validateUser(post) {
-        return Api.put('/posts/validate', post)
+    validateUser(reaction) {
+        return Api.put('/reactions/validate', reaction)
     }
 }
 

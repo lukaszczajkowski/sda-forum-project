@@ -1,5 +1,6 @@
 package se.kth.sda.skeleton.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import se.kth.sda.skeleton.auth.AuthRequest;
 import se.kth.sda.skeleton.auth.AuthService;
@@ -15,6 +16,9 @@ public class UserController {
         this.service = service;
     }
 
+    @Autowired
+    private AuthService authService;
+
     @GetMapping("")
     public User getUsersByEmail(@RequestParam String email) {
         return service.findUserByEmail(email);
@@ -24,5 +28,11 @@ public class UserController {
     @GetMapping("/all")
     public List<User> getAllUsers() {
         return service.getAllUsers();
+    }
+
+    @GetMapping("/me")
+    public User getUser(){
+        String email = authService.getLoggedInUserEmail();
+        return service.findUserByEmail(email);
     }
 }

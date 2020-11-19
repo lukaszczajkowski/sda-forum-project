@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PostsApi from '../../api/PostsApi';
+import ReactionApi from '../../api/ReactionApi';
 import PostUpdateForm from './PostUpdateForm';
 
 //TODO: rename it to PostCard and place it in the posts folder
@@ -9,7 +10,8 @@ export default function PostCard ({data}) {
         title,
         content,
         user, 
-        date
+        date,
+        numReaction,
     } = data;
 
     const [isUpdating, setIsUpdating] = useState(false);
@@ -32,6 +34,10 @@ export default function PostCard ({data}) {
                 .catch((err) => alert("You cannot update this post."))
     }
   
+    const onLikeClicked =() =>{
+        
+    }
+
     //TODO: place the remove function in the parent class
     
     return (
@@ -61,6 +67,14 @@ export default function PostCard ({data}) {
                 }}>
                 Update
             </button>
+
+            <button className="btn btn-info"
+                onClick = {() => {
+                    onLikeClicked()
+                }}>
+                Like{numReaction}
+            </button>
+
             </div>
         </div>
     )
