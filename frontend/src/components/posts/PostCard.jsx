@@ -31,6 +31,20 @@ export default function PostCard ({data}) {
                 .then(() => setIsUpdating(true))
                 .catch((err) => alert("You cannot update this post."))
     }
+
+    function transformDate(array) {
+        const day = JSON.stringify(array[0]);
+        const hour = JSON.stringify(array[1]);
+
+        const dayTrimmed = day.substring(3, day.length - 1);
+        const hourTrimmed = hour.substring(1, hour.length - 12);
+
+        return dayTrimmed + ' at ' + hourTrimmed;
+    }
+
+    //Takes the date from the JSON file and splits it to an array
+    const dateArray = JSON.stringify(date).split('T');
+    const convertedDate = transformDate(dateArray);
   
     //TODO: place the remove function in the parent class
     
@@ -43,10 +57,10 @@ export default function PostCard ({data}) {
         <div className = "card mt-4">
             <div className = "card-body">
             <h4 className="card-title">{title}</h4>
-            <p>Posted by {user.name} on {date}</p>
-            <p>{content}</p>
+            <p>Posted by {user.email} on {convertedDate}</p>
+            <p className = "card-text">{content}</p>
             <button 
-                className="btn btn-danger" 
+                className="btn btn-danger mr-4" 
                 onClick={() => {
                     PostsApi.deletePost(id)
                             .then(() => window.location.reload())
