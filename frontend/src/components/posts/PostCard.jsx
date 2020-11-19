@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PostsApi from '../../api/PostsApi';
 import PostUpdateForm from './PostUpdateForm';
+import CommentsWindow from '../comments/CommentsWindow'
 
 export default function PostCard ({data}) {
 
@@ -68,8 +69,6 @@ export default function PostCard ({data}) {
               <CommentsWindow postId = {id} />   
             </div>
             
-            <p>Posted by {user.name} on {date}</p>
-            <p>{content}</p>
             <button 
                 className="btn btn-danger mr-4" 
                 onClick={() => {

@@ -15,17 +15,20 @@ function CommentCard({data}) {
         CommentsApi.deleteComment(id)
                     .then(() => window.location.reload())
                     .then(() => alert("Comment Removed"))
-                    .catch(err => alert('You cannot update the post!', window.location.reload()));
+                    .catch(err => alert('You cannot delete the post!'));
     }
     const updateComment = (updatedComment) => {
         CommentsApi.updateComment(updatedComment)
                     .then(() => window.location.reload())
                     .then(() => alert("Post updated!"))
-                    .catch(err => alert('You cannot update the post!', window.location.reload()));
+                    .catch(err => alert('You cannot update the post!'));
     }
 
     function onFirstClick ()  {
-        setIsCommentUpdate(true);
+        CommentsApi.validateUser(data)
+                .then(() => setIsCommentUpdate(true))
+                .catch(err => alert('You cannot update the post!'));
+        
     }
 
     return (
@@ -35,10 +38,10 @@ function CommentCard({data}) {
                <p> {commentData} </p> 
                <div className = "commentactions">
                     <div className = "commentaction">
-                         <button className = "btn btn-info" onClick = {() => { onFirstClick() }}> Update </button>
+                         <button className = "btn btn-info mb-4" onClick = {() => { onFirstClick() }}> Update </button>
                          </div>
                     <div className="commentaction">
-                         <button className =  "btn btn-info" onClick = {deleteComment}> Delete </button>
+                         <button className =  "btn btn-info mb-4" onClick = {deleteComment}> Delete </button>
                          </div>
                </div>
                <hr/>
