@@ -4,6 +4,7 @@ import PostUpdateForm from './PostUpdateForm';
 
 //TODO: rename it to PostCard and place it in the posts folder
 export default function PostCard ({data}) {
+
     const {
         id,
         title,
@@ -17,7 +18,6 @@ export default function PostCard ({data}) {
     useEffect(() => {
         PostsApi.getPostById({id});
     },[]);
-
 
     const updatePost = (updatedPost) => {
         PostsApi.updatePost(updatedPost)
@@ -43,6 +43,14 @@ export default function PostCard ({data}) {
         <div className = "card mt-4">
             <div className = "card-body">
             <h4 className="card-title">{title}</h4>
+
+            <p>Posted by  on {date}</p>
+            <p>{content}</p>
+
+            <div className = "CommentsPop">
+              <CommentsWindow postId = {id} />   
+            </div>
+            
             <p>Posted by {user.name} on {date}</p>
             <p>{content}</p>
             <button 
