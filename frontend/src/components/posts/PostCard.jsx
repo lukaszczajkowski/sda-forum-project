@@ -36,11 +36,22 @@ export default function PostCard ({data}) {
                 .then(() => setIsUpdating(true))
                 .catch((err) => alert("You cannot update this post."))
     }
-  
-    const onLikeClicked =()=>{
 
+    const onLikeClicked = ()=>{
+        //{} removeed
+        if (ReactionApi.isUserReacted(id)){
+            console.log("Id = "  + id)
+            ReactionApi.getReactionIdByPostId(id)
+            .then(id => ReactionApi.deleteReaction(id.data))
+            .then(setNumReactions(numReactions - 1))
+            .catch(err => console.log(err));
+        }else{
+            console.log("we are in else");
+            ReactionApi.createReaction(id)
+            .then(id => setNumReactions(numReactions + 1))
+            .catch(err => console.log(err));;
+        }
     }
-    //TODO: place the remove function in the parent class
     
     return (
         isUpdating ? 

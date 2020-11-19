@@ -27,8 +27,8 @@ public class ReactionService {
 
     public void delete(Long id){reactionRepository.deleteById(id);}
 
-    public List<Reaction> getAllReactionByPostId(Long id){return reactionRepository.findAllByPostId(id);}
+    public List<Reaction> getAllReactionByPostId(Long postId){return reactionRepository.findAllByPostId(postId);}
 
-    public List<Reaction> getAllReactionByUserId(Long id){return reactionRepository.findAllByAuthorId(id);}
+    public List<Reaction> getAllReactionByUserId(Long userId){return reactionRepository.findAllByAuthorId(userId);}
 
 }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 import se.kth.sda.skeleton.comments.Comment;
 import se.kth.sda.skeleton.post.Post;
+import se.kth.sda.skeleton.raction.Reaction;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -36,6 +38,9 @@ public class User {
 
     @OneToMany
     private List<Comment> comments;
+
+    @OneToMany
+    private List<Reaction> reactions;
 
     @OneToMany
     private List<Post> postDeatils;

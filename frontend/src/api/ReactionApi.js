@@ -1,3 +1,4 @@
+import Axios from "axios";
 import Api from "./Api";
 
 class ReactionApi {
@@ -18,8 +19,8 @@ class ReactionApi {
         return Api.get('/reactions/user/'+id);
     }
 
-    createReaction(reaction) {
-        return Api.put('/reactions', reaction);
+    createReaction(postId) {
+        return Api.post('/reactions' +postId);
     }
 
     countReactionByPostId(id) {
@@ -35,7 +36,15 @@ class ReactionApi {
     } 
 
     validateUser(reaction) {
-        return Api.put('/reactions/validate', reaction)
+        return Api.put('/reactions/validate', reaction);
+    }
+
+    isUserReacted(postId){
+        return Api.get("/reactions/validByPostId/" + postId);
+    }
+
+    getReactionIdByPostId(postId){
+        return Api.get("/reactions/fetchReactionByPostId/" + postId);
     }
 }
 

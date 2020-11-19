@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import se.kth.sda.skeleton.auth.AuthService;
 import se.kth.sda.skeleton.post.Post;
+import se.kth.sda.skeleton.post.PostService;
 import se.kth.sda.skeleton.user.User;
 import se.kth.sda.skeleton.user.UserService;
 
@@ -23,6 +24,9 @@ public class ReactionController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private PostService postService;
 
     @GetMapping("")
     public List<Reaction> getALl(){
@@ -54,10 +58,13 @@ public class ReactionController {
         return reactionService.getAllReactionByUserId(userId).size();
     }
 
-    @PostMapping("")
-    public Reaction create(@RequestBody Reaction reaction){
+    @PostMapping("/{postId}")
+    public Reaction create(@PathVariable Long postId){
+        Reaction reaction = new Reaction();
         reaction.setTimeStamp(Calendar.getInstance().getTime());
         User user = userService.findUserByEmail(authService.getLoggedInUserEmail());
+        Post post = postService.getPostById(postId);
+        reaction.setPost(post);
         reaction.setAuthor(user);
         return reactionService.create(reaction);
     }
@@ -84,5 +91,42 @@ public class ReactionController {
         String reactionAuthorEmail = reaction.getAuthor().getEmail();
         String editorEmail = authService.getLoggedInUserEmail();
         return reactionAuthorEmail == editorEmail;
+    }
+
+    @GetMapping("/fetchReactionByPostId/{postId}")
+    private Long getIdByPostId(@PathVariable Long postId){
+        Reaction reaction = checkUserReactedAlready(postId);
+        if(reaction == null) {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);
+        } else {
+            return reaction.getId();
+        }
+    }
+
+    @GetMapping("/validByPostId/{postId}")
+    private boolean validByPost(@PathVariable Long postId){
+        if(checkUserReactedAlready(postId) == null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //changed to boolean from Reaction
+    private Reaction checkUserReactedAlready(Long postId){
+        String editorEmail = authService.getLoggedInUserEmail();
+        List<Reaction> reactedOfPost = reactionService.getAllReactionByPostId(postId);
+        if(reactedOfPost.size() == 0){
+            create(postId);
+            checkUserReactedAlready(postId);
+        } else {
+            for(Reaction reaction:reactedOfPost) {
+                if (reaction.getAuthor().getEmail().equals(editorEmail)) {
+                System.out.println("Check user reacted - match found!");
+                return reaction;
+                    }
+            }
+        }
+        return null;
     }
 }
