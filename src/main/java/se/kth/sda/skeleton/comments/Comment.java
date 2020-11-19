@@ -21,7 +21,8 @@ public class Comment {
     //@NotEmpty(message = "Please add your comments")
     private String commentData;
 
-    private LocalDateTime dateTime;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private LocalDateTime dateTime = LocalDateTime.now();
 
     @ManyToOne
     private Post post;
@@ -29,12 +30,12 @@ public class Comment {
     @ManyToOne
     private User user;
 
-
+    // Hibernate needs a default constructor to function
     public Comment() {}
     public Comment(long id,String commentData, LocalDateTime dateTime) {
         this.id=id;
         this.commentData=commentData;
-        this.dateTime = LocalDateTime.now();
+        this.dateTime = dateTime;
     }
 
     public void setId(long id) {
@@ -56,17 +57,19 @@ public class Comment {
 
 
     public LocalDateTime getDateTime() {
-        return LocalDateTime.now();
+        return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
     }
-    public Post getPostDetails() {
+
+    public Post getPost() {
         return post;
     }
-    public void setPostDetails(Post postDetails) {
-        this.post = postDetails;
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public User getUser() {

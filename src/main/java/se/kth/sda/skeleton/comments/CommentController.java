@@ -49,11 +49,11 @@ public class CommentController {
         String currentEmail=commentService.getCommentById(updateComment.getId())
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND))
                 .getUser().getEmail();
-        if(currentEmail==authService.getLoggedInUserEmail()) {
-            return commentService.updateComment(updateComment);
+        if(currentEmail.equals(authService.getLoggedInUserEmail())) {
+            return commentService.addNewComment(updateComment);
         }
         else
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"Unauthorized to update");
     }
 
     @DeleteMapping("/comment/{id}")
@@ -64,5 +64,7 @@ public class CommentController {
         if(currentEmail.equals(authService.getLoggedInUserEmail())) {
             commentService.deleteComment(id);
         }
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"Unauthorized to update");
     }
 }

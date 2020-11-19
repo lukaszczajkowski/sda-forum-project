@@ -7,6 +7,7 @@ import {
 
 // Import custom styles for our application
 import './App.css';
+import './Comments.css';
 
 import Auth from './services/Auth';
 import Navbar from "./components/layout/Navbar";
@@ -21,6 +22,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(Auth.isLoggedIn());
   Auth.bindLoggedInStateSetter(setLoggedIn);
   
+  const [query, setQuery] = useState("");
   const loggedInRouter = (
             <Router>
                 <Navbar onLogout={() => Auth.logout()} />
@@ -30,7 +32,6 @@ function App() {
                         <Route path="/posts">
                             <PostsPage/>
                         </Route>
-
                         <Route path="/chat">
                             <ChatPage/>
                         </Route>
