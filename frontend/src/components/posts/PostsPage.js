@@ -57,14 +57,14 @@ function PostsPage() {
     return (
         <div className = "posts-page">
             <div className = "container">
-                <button className = "btn btn-warning mr-4 mb-4"
+                {/* <button className = "btn btn-warning mr-4 mb-4"
                     onClick = {() => setSorting("date")}>
                     Sort by date
-                </button>
+                </button> */}
                 <button className = "btn btn-warning mr-4 mb-4"
                     onClick= {() => setSorting("name")}
                 >
-                    Sort by title
+                    Show all
                 </button>
             </div>
             
