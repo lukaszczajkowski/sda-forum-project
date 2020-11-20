@@ -7,7 +7,7 @@ services:
        - POSTGRES_USER=skeleton_user
        - POSTGRES_PASSWORD=skeleton_pass
     ports:
-      - "5433:5432"
+      - "5442:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
 
