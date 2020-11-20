@@ -2,6 +2,7 @@ package se.kth.sda.skeleton.post;
 
 
 import se.kth.sda.skeleton.comments.Comment;
+import se.kth.sda.skeleton.reactions.Reaction;
 import se.kth.sda.skeleton.user.User;
 
 import javax.persistence.*;
@@ -26,6 +27,9 @@ public class Post {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    private List<Reaction> reactions;
 
     @Column(name = "date")
     private Date date;

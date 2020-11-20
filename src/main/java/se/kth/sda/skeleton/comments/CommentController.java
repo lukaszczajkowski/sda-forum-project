@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 public class CommentController {
     @Autowired
-    private CommentService commentService;
+    private final CommentService commentService;
     @Autowired
     private AuthService authService;
     @Autowired

@@ -20,7 +20,7 @@ public class SkeletonApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry
 					.addMapping("/**")
-					.allowedOrigins("*")
+					.allowedOrigins("*").allowCredentials(true)
 					.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
 			}
 		};
