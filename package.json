@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "react-autosuggest": "^10.0.3"
+    "react-autosuggest": "^10.0.3",
+    "react-stomp": "^5.0.0"
   }
 }

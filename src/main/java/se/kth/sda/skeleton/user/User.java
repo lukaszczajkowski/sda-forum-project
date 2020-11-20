@@ -3,6 +3,8 @@ package se.kth.sda.skeleton.user;
 import org.hibernate.validator.constraints.Length;
 import se.kth.sda.skeleton.comments.Comment;
 import se.kth.sda.skeleton.post.Post;
+import se.kth.sda.skeleton.reactions.Reaction;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -39,6 +41,9 @@ public class User {
     private List<Post> postDeatils;
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reaction> reactions;
 
     // Hibernate needs a default constructor to function
     public User() {}

@@ -63,9 +63,7 @@ public class PostController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
-        System.out.println("Checking credentials.");
         if(checkCredentials(service.getPostById(id))){
-            System.out.println("Credentials ok!");
             service.delete(id);
         } else {
             throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED);

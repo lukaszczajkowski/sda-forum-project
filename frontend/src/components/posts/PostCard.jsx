@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PostsApi from '../../api/PostsApi';
 import PostUpdateForm from './PostUpdateForm';
 import CommentsWindow from '../comments/CommentsWindow'
+import ReactionApi from '../../api/ReactionApi';
 
 export default function PostCard ({data}) {
 
@@ -10,14 +11,19 @@ export default function PostCard ({data}) {
         title,
         content,
         user, 
-        date
+        date,
     } = data;
 
     const [isUpdating, setIsUpdating] = useState(false);
+    const [numReactions, setNumReactions] = useState(0);
 
     useEffect(() => {
-        PostsApi.getPostById({id});
-    },[]);
+        const postId = data.id;
+        PostsApi.getPostById(postId);
+        ReactionApi.countReactionByPostId(postId)
+                .then(response => setNumReactions(response.data))
+                .catch(er => console.log(er));
+    },[numReactions]);
 
     const updatePost = (updatedPost) => {
         PostsApi.updatePost(updatedPost)
@@ -42,11 +48,19 @@ export default function PostCard ({data}) {
         return dayTrimmed + ' at ' + hourTrimmed;
     }
 
+    function onLikeClicked(){
+        const postId = data.id;
+        ReactionApi.createReaction(postId);
+        ReactionApi.countReactionByPostId(postId)
+                .then(response => setNumReactions(response.data))
+                .then(window.location.reload());
+    }
+    
+
     //Takes the date from the JSON file and splits it to an array
     const dateArray = JSON.stringify(date).split('T');
     const convertedDate = transformDate(dateArray);
   
-    //TODO: place the remove function in the parent class
     
     return (
         isUpdating ? 
@@ -61,14 +75,7 @@ export default function PostCard ({data}) {
             <p>Posted by {user.email} on {convertedDate}</p>
             <p className = "card-text">{content}</p>
 
-
-            <p>Posted by  on {date}</p>
-            <p>{content}</p>
-
-            <div className = "CommentsPop">
-              <CommentsWindow postId = {id} />   
-            </div>
-            
+            <CommentsWindow postId = {id} />   
             <button 
                 className="btn btn-danger mr-4" 
                 onClick={() => {
@@ -84,6 +91,12 @@ export default function PostCard ({data}) {
                     onFirstClick()
                 }}>
                 Update
+            </button>
+            <button className="btn btn-info"
+                onClick = {() => {
+                    onLikeClicked()
+                }}>
+                Like({numReactions})
             </button>
             </div>
         </div>
