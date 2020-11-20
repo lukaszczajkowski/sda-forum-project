@@ -4,7 +4,7 @@ import PostUpdateForm from './PostUpdateForm';
 import CommentsWindow from '../comments/CommentsWindow'
 import ReactionApi from '../../api/ReactionApi';
 
-export default function PostCard ({data}) {
+export default function PostCard ({data}) {
 
     const {
         id,
@@ -71,17 +71,13 @@ export default function PostCard ({data}) {
         <div className = "card mt-4">
             <div className = "card-body">
             <h4 className="card-title">{title}</h4>
-            
-            <button 
-                className="btn btn-danger mr-4"
 
-            <p>Posted by {user.email} on {convertedDate}</p>
+            <p class="font-weight-normal font-italic">Posted by {user.email} on {convertedDate}</p>
             <p className = "card-text">{content}</p>
 
             <CommentsWindow postId = {id} />   
             <button 
-                className="btn btn-danger mr-4" 
-
+                className="btn btn-danger mr-4 mt-4" 
                 onClick={() => {
                     PostsApi.deletePost(id)
                             .then(() => window.location.reload())
@@ -90,15 +86,13 @@ export default function PostCard ({data}) {
                 }}>
                 Delete post
             </button>
-            <button className="btn btn-warning"
+            <button className="btn btn-warning mr-4 mt-4"
                 onClick = {() => {
                     onFirstClick()
                 }}>
                 Update
             </button>
-
-            <CommentsWindow postId = {id} />   
-            <button className="btn btn-info"
+            <button className="btn btn-info mr-4 mt-4"
                 onClick = {() => {
                     onLikeClicked()
                 }}>
