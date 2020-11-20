@@ -45,12 +45,12 @@ export default function PostCard ({data}) {
             <p>Posted by  on {date}</p>
             <p>{content}</p>
 
-            <div className = "CommentsPop">
-              <CommentsWindow postId = {id} />   
-            </div>
+            
+              
+          
             
             <button 
-                className="btn btn-danger" 
+                className="btn btn-danger mr-4"
                 onClick={() => {
                     PostsApi.deletePost(id)
                             .then(() => window.location.reload())
@@ -65,6 +65,7 @@ export default function PostCard ({data}) {
                 }}>
                 Update
             </button>
+            <CommentsWindow postId = {id} />   
             </div>
         </div>
     )

@@ -20,7 +20,7 @@ function CommentWindow ({postId}) {
     return (          
 
         <div className = "CommentsPop">
-            <input type = "button" value = "View Comments" onClick = {showPopup}/> 
+            <input type = "button" className= "btn btn-info mt-4" value = "View Comments" onClick = {showPopup}/> 
             { (isOpen || localStorage.getItem("commentspopup"))  && localStorage.getItem("postid") === postId.toString() &&
               localStorage.getItem("commentspopup") !==  null ? <CommentsPage postId = {postId}  handleClose={togglePopup} /> : null 
             }  
