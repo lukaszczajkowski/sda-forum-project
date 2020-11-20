@@ -3,6 +3,9 @@ import Auth from "../../services/Auth";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
+import { Link } from "react-router-dom";
+import logo from "../../images/TechJunkies2.png";
+
 function LoginPage() {
     const login = async (loginData) => {
         const loginSuccess = await Auth.login(loginData);
@@ -23,10 +26,13 @@ function LoginPage() {
             <div className="container">
                 <div className="row mt-4">
                     <div className="col-md-6 " style={{ color: "white" }}>
-                        <h1>SDA</h1>
-                        <p>Starter template</p>
+                       
+                        <div className = "title">
+                             <img src = {logo} title = "Yellow Corp logo" alt = "Yellow cartoon box with location symbol" /> 
+                        </div>
                     </div>
-
+                    
+                    <hr/>
                     <div className="col-md-6">
                         <div className="row">
                             <div className="col-12  strong-shadow">

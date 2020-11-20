@@ -71,6 +71,9 @@ export default function PostCard ({data}) {
         <div className = "card mt-4">
             <div className = "card-body">
             <h4 className="card-title">{title}</h4>
+            
+            <button 
+                className="btn btn-danger mr-4"
 
             <p>Posted by {user.email} on {convertedDate}</p>
             <p className = "card-text">{content}</p>
@@ -78,6 +81,7 @@ export default function PostCard ({data}) {
             <CommentsWindow postId = {id} />   
             <button 
                 className="btn btn-danger mr-4" 
+
                 onClick={() => {
                     PostsApi.deletePost(id)
                             .then(() => window.location.reload())
@@ -92,6 +96,8 @@ export default function PostCard ({data}) {
                 }}>
                 Update
             </button>
+
+            <CommentsWindow postId = {id} />   
             <button className="btn btn-info"
                 onClick = {() => {
                     onLikeClicked()
