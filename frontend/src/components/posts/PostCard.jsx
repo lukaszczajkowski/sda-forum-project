@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import PostsApi from '../../api/PostsApi';
 import PostUpdateForm from './PostUpdateForm';
-import CommentsWindow from "../comments/CommentsWindow";
+import CommentsWindow from '../comments/CommentsWindow'
+import ReactionApi from '../../api/ReactionApi';
 
-//TODO: rename it to PostCard and place it in the posts folder
-export default function PostCard ({data}) {
+export default function PostCard ({data}) {
+
     const {
         id,
         title,
         content,
         user, 
-        date
+        date,
     } = data;
 
     const [isUpdating, setIsUpdating] = useState(false);
+    const [numReactions, setNumReactions] = useState(0);
 
     useEffect(() => {
-        PostsApi.getPostById({id});
-    },[]);
+        const postId = data.id;
+        PostsApi.getPostById(postId);
+        ReactionApi.countReactionByPostId(postId)
+                .then(response => setNumReactions(response.data))
+                .catch(er => console.log(er));
+    },[numReactions]);
+
     const updatePost = (updatedPost) => {
         PostsApi.updatePost(updatedPost)
                 .then(() => window.location.reload())
@@ -30,8 +37,30 @@ export default function PostCard ({data}) {
                 .then(() => setIsUpdating(true))
                 .catch((err) => alert("You cannot update this post."))
     }
+
+    function transformDate(array) {
+        const day = JSON.stringify(array[0]);
+        const hour = JSON.stringify(array[1]);
+
+        const dayTrimmed = day.substring(3, day.length - 1);
+        const hourTrimmed = hour.substring(1, hour.length - 12);
+
+        return dayTrimmed + ' at ' + hourTrimmed;
+    }
+
+    function onLikeClicked(){
+        const postId = data.id;
+        ReactionApi.createReaction(postId);
+        ReactionApi.countReactionByPostId(postId)
+                .then(response => setNumReactions(response.data))
+                .then(window.location.reload());
+    }
+    
+
+    //Takes the date from the JSON file and splits it to an array
+    const dateArray = JSON.stringify(date).split('T');
+    const convertedDate = transformDate(dateArray);
   
-    //TODO: place the remove function in the parent class
     
     return (
         isUpdating ? 
@@ -42,15 +71,17 @@ export default function PostCard ({data}) {
         <div className = "card mt-4">
             <div className = "card-body">
             <h4 className="card-title">{title}</h4>
-            <p>Posted by  on {date}</p>
-            <p>{content}</p>
-
-            
-              
-          
             
             <button 
                 className="btn btn-danger mr-4"
+
+            <p>Posted by {user.email} on {convertedDate}</p>
+            <p className = "card-text">{content}</p>
+
+            <CommentsWindow postId = {id} />   
+            <button 
+                className="btn btn-danger mr-4" 
+
                 onClick={() => {
                     PostsApi.deletePost(id)
                             .then(() => window.location.reload())
@@ -65,7 +96,14 @@ export default function PostCard ({data}) {
                 }}>
                 Update
             </button>
+
             <CommentsWindow postId = {id} />   
+            <button className="btn btn-info"
+                onClick = {() => {
+                    onLikeClicked()
+                }}>
+                Like({numReactions})
+            </button>
             </div>
         </div>
     )

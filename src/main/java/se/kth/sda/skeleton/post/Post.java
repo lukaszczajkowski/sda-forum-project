@@ -1,6 +1,8 @@
 package se.kth.sda.skeleton.post;
 
+
 import se.kth.sda.skeleton.comments.Comment;
+import se.kth.sda.skeleton.reactions.Reaction;
 import se.kth.sda.skeleton.user.User;
 
 import javax.persistence.*;
@@ -26,10 +28,13 @@ public class Post {
     @ManyToOne
     private User user;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    private List<Reaction> reactions;
+
     @Column(name = "date")
     private Date date;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public Post(Long id, String title, String content, User user, Date date) {
@@ -38,6 +43,14 @@ public class Post {
         this.content = content;
         this.user = user;
         this.date = Calendar.getInstance().getTime();
+    }
+
+
+
+    public Post(Long id, String content, String title) {
+        this.id = id;
+        this.content = content;
+        this.title = title;
     }
 
     public Post() {
@@ -73,5 +86,13 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
+    }
+  
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

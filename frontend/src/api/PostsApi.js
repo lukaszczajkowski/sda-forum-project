@@ -20,6 +20,18 @@ class PostsApi {
     deletePost(id) {
         return Api.delete('/posts/'+id);
     } 
+
+    validateUser(post) {
+        return Api.put('/posts/validate', post)
+    }
+
+    getPostsSortedByUserName() {
+         return Api.get('/posts', {params: {sort: "name"}})
+    }
+
+    getOnlyUser() {
+        return Api.get()
+    }
 }
 
 export default new PostsApi();
